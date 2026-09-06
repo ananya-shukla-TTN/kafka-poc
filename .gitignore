@@ -10,4 +10,10 @@
 /dataSources.local.xml
 .idea
 README.md
-kafka-poc/src/main/resources/env.properties
+src/main/resources/env.properties
+
+# Gradle
+.gradle/
+build/
+
+*.iml

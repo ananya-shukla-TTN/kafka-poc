@@ -1,0 +1,34 @@
+server:
+  port: 8090
+
+spring:
+  config:
+    import:
+      - classpath:env.properties
+  application:
+    name: kafka-poc
+  kafka:
+    # Confluent Cloud connection details -- injected via env vars, never hardcoded.
+    # See README.md "Confluent Cloud setup" for where these values come from.
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
+    security:
+      protocol: SASL_SSL
+    properties:
+      sasl:
+        mechanism: PLAIN
+        jaas:
+          config: org.apache.kafka.common.security.plain.PlainLoginModule required username="${KAFKA_API_KEY}" password="${KAFKA_API_SECRET}";
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    consumer:
+      group-id: kafka-poc-default
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+      properties:
+        spring.deserializer.value.delegate.class: org.springframework.kafka.support.serializer.JsonDeserializer
+        spring.json.trusted.packages: com.learningkafka.kafkapoc.model
+
+logging:
+  level:
+    com.learningkafka.kafkapoc: INFO

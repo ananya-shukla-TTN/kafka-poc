@@ -8,8 +8,6 @@ spring:
   application:
     name: kafka-poc
   kafka:
-    # Confluent Cloud connection details -- injected via env vars, never hardcoded.
-    # See README.md "Confluent Cloud setup" for where these values come from.
     bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
     security:
       protocol: SASL_SSL
